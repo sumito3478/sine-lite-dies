@@ -9,14 +9,24 @@ import java.time.ZoneId
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import org.fusesource.scalate._
 import java.nio.file._
+import java.io._
 import org.yaml.snakeyaml.Yaml
 
 import scala.annotation.tailrec
 import scala.collection.JavaConverters._
+import scala.sys.process._
 
 object Generate extends App with LazyLogging {
   val articles = new Articles
   val target = Paths.get("static-site")
+  Files.createDirectories(target)
+  logger.info(Process(Seq("python3", "tools/build.py"), new File("highlight.js")).!!)
+  Files.copy(Paths.get("highlight.js/build/highlight.pack.js"), target.resolve("highlight.pack.js"), StandardCopyOption.REPLACE_EXISTING)
+  Files.copy(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"), StandardCopyOption.REPLACE_EXISTING)
+  val out = new FileOutputStream(new File("static-site/style.css"))
+  logger.info(Seq("npm", "install", "nib").!!)
+  logger.info((Seq("stylus", "--include", "node_modules/nib/lib") #< new FileInputStream(new File("style.styl")) #> out).!!)
+  out.close
   try {
     for (article <- articles.articles) {
       //    Files.write(dst, output.getBytes("UTF-8"))

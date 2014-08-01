@@ -24,3 +24,6 @@ hs_err_pid*.log
 
 # Temporary Directory
 /tmp
+
+# node locally installed modules
+/node_modules
