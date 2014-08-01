@@ -1,0 +1,73 @@
+-@ val title: String
+- import sine.lite.dies._
+-@ val contents: Seq[Content]
+-@ val allTags: Seq[String]
+-@ val lang: String
+-@ val css: String
+-@ val modifiedDate: String
+-@ val root: String
+!!! 5
+html(lang='ja')
+  head
+    meta(charset='utf-8')
+    meta(name='generator' content='pandoc')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=yes')
+    meta(name='author' content='sumito3478')
+    meta(name='dcterms.date' content='#{modifiedDate}')
+    title Sine Lite Dies - #{title}
+    script(src='http://code.jquery.com/jquery-2.1.1.min.js')
+    link(rel='stylesheet' href='#{root}/style.css')
+    script(src='#{root}/highlight.pack.js')
+    :javascript
+      $(document).ready(function() {
+        hljs.configure({languages: ['scala']});
+        $('pre').each(function(i, pre) {
+          Array.prototype.forEach.call(pre.getElementsByTagName('code'), function(code) {
+            $(code).addClass(pre.getAttribute('class'));
+            hljs.highlightBlock(code);
+          });
+        });
+      });
+  body
+    aside#site-aside
+      header#site-header
+        label#site-menu(for='site-menu-check') MENU
+        h1
+          a(href='#{root}/index.html') Sine Lite Dies
+    #document-root
+      input#site-menu-check(type='checkbox' name='check[]' value='c1')
+      aside#site-menu-content
+        a(href='#{root}/index.html')
+          h1 index
+        a(href='#{root}/article/all.html')
+          h1 all articles in one
+        a(href='#{root}/tags.html')
+          h1 tags
+        - for (tag <- allTags)
+          a(href='#{root}/tag/#{tag}.html')
+            :!pandoc-markdown
+              #{tag}
+      #document-contents
+        :!pandoc-markdown
+          # #{title}
+        - for (Content(body, metaData, tags, title, permalink) <- contents)
+          #document-content
+            header
+              :!pandoc-markdown
+                # [#{title}](#{root}/#{permalink})
+              ul.metadata
+                - for ((title, data) <- metaData)
+                  dt #{title}
+                  dd
+                    :!pandoc-markdown
+                      #{data}
+                dt 最終更新日
+                dd #{modifiedDate}
+                dt tags
+                dd
+                  - for (tag <- tags)
+                    a(href='#{root}/tag/#{tag}.html') #{tag}
+            .body
+              :!pandoc-markdown
+                #{body}
+-# vim:set ts=2 sw=2 et:
