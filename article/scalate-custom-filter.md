@@ -22,8 +22,7 @@ SSP(Velocity/JSP/Erbに似たフォーマット)に（一部方言はあるが�
 ## ScalateでJadeのフィルタ
 
 Jadeではフィルタと呼ばれる仕組みを使って他のフォーマットの文字列をJadeの中に埋め込むことができる。
-以下はJadeの中にMarkdownで書かれたテキストを埋め込む例だ
-（!!!5というのはHaml由来？のScalate版Jadeの方言で、doctype htmlと同じだ）。
+以下はJadeの中にMarkdownで書かれたテキストを埋め込む例だ[^1]。
 
 ```jade
 !!! 5
@@ -117,4 +116,12 @@ object Test extends App {
 一定時間内に返ってこなければスレッドをinterruptして強制的に抜け、リトライするようにしている
 （scala.sys.processでタイムアウトを設定する方法を知らない…）。
 何かおろかな間違いをしていそうなのだが調査は後日。
+
+[^1]:
+  !!!5というのはHaml由来の構文で、オリジナルのJadeのdoctype htmlと同じだ。
+  オリジナルのJadeで!!!5を書いたら以下のようなエラーになった。昔はサポートしていたらしい。
+```
+Error: `!!!` is deprecated, you must now use `doctype`
+```
+  ScalateのJadeではdoctype htmlとは書けないようなので、Hamlの記法を使う。
 
