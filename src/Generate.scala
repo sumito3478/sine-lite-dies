@@ -21,7 +21,7 @@ object Generate extends App with LazyLogging {
   val articles = new Articles
   val target = Paths.get("static-site")
   def syncLastModifiedTime(src: Path, dst: Path) =
-    Files.setLastModifiedTime(src, Git.lastModifiedTime(Some(dst)).map(x => FileTime.from(x.toInstant)).getOrElse(Files.getLastModifiedTime(dst)))
+    Files.setLastModifiedTime(dst, Git.lastModifiedTime(Some(src)).map(x => FileTime.from(x.toInstant)).getOrElse(Files.getLastModifiedTime(src)))
   Files.createDirectories(target)
   Files.copy(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"), StandardCopyOption.REPLACE_EXISTING)
   syncLastModifiedTime(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"))
