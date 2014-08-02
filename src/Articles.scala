@@ -159,7 +159,7 @@ class Articles extends LazyLogging {
     lazy val lastModifiedTime = {
       import scala.sys.process._
       import scala.util.control.Exception
-      val last = Exception.allCatch[Option[String]].either(Git.lastModifiedDate(Some(path.toString))) match {
+      val last = Exception.allCatch[Option[LocalDate]].either(Git.lastModifiedTime(Some(path)).map(_.toLocalDate)) match {
         case Left(e) =>
           logger.error("Failed to get last modified date from git log", e)
           None
@@ -167,7 +167,7 @@ class Articles extends LazyLogging {
           None
         case Right(Some(x)) => Some(x)
       }
-      val lmt = last.map(LocalDate.parse(_)).getOrElse {
+      val lmt = last.getOrElse {
         logger.warn("Could not get last modified date from git log, falling back to information from the file system")
         Files.getLastModifiedTime(path).toInstant.atZone(ZoneId.systemDefault).toLocalDate
       }
