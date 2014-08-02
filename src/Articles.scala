@@ -182,7 +182,7 @@ class Articles extends LazyLogging {
       logger.info(s"allTags = $allTags")
       val root = path.getParent.relativize(Paths.get("."))
       engine.layout("layout.jade",
-        Map("title" -> "Sine Lite Dies",
+        Map("title" -> title,
           "contents" -> Seq(content),
           "lang" -> "ja",
           "css" -> css.toString,
