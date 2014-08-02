@@ -6,6 +6,7 @@
 -@ val css: String
 -@ val modifiedDate: String
 -@ val root: String
+-@ val highlighted: Set[String]
 !!! 5
 html(lang='ja')
   head
@@ -17,17 +18,20 @@ html(lang='ja')
     title Sine Lite Dies - #{title}
     script(src='http://code.jquery.com/jquery-2.1.1.min.js')
     link(rel='stylesheet' href='#{root}/style.css')
-    script(src='#{root}/highlight.pack.js')
-    :javascript
-      $(document).ready(function() {
-        hljs.configure({languages: ['scala']});
-        $('pre').each(function(i, pre) {
-          Array.prototype.forEach.call(pre.getElementsByTagName('code'), function(code) {
-            $(code).addClass(pre.getAttribute('class'));
-            hljs.highlightBlock(code);
+    - if (!highlighted.isEmpty)
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js')
+      - for (lang <- highlighted)
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/languages/#{lang}.min.js')
+      :!javascript
+        $(document).ready(function() {
+          hljs.configure({languages: [#{highlighted.mkString("'", "','", "'")}]});
+          $('pre').each(function(i, pre) {
+            Array.prototype.forEach.call(pre.getElementsByTagName('code'), function(code) {
+              $(code).addClass(pre.getAttribute('class'));
+              hljs.highlightBlock(code);
+            });
           });
         });
-      });
   body
     aside#site-aside
       header#site-header

@@ -35,12 +35,14 @@ class Articles extends LazyLogging {
       val root = path.getParent.relativize(Paths.get("."))
       val css = path.getParent.relativize(Paths.get("style.css"))
       val articles = tagMap.lift(name).toList.flatten
+      val contents = articles.map(_.content)
       engine.layout("layout.jade",
         Map("title" -> s"タグ $name",
-          "contents" -> articles.map(_.content),
+          "contents" -> contents,
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
+          "highlighted" -> HighlightJS.dependencies(contents.map(_.body).mkString("\n")),
           "root" -> root.toString,
           "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
     }
@@ -50,12 +52,14 @@ class Articles extends LazyLogging {
     def html = {
       val root = path.getParent.relativize(Paths.get("."))
       val css = path.getParent.relativize(Paths.get("style.css"))
+      val contents = articles.sortBy(x => x.lastModifiedTime.toEpochDay)(implicitly[Ordering[Long]].reverse).map(_.content)
       engine.layout("layout.jade",
         Map("title" -> s"全ての記事",
           "contents" -> articles.sortBy(x => x.lastModifiedTime.toEpochDay)(implicitly[Ordering[Long]].reverse).map(_.content),
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
+          "highlighted" -> HighlightJS.dependencies(contents.map(_.body).mkString("\n")),
           "root" -> root.toString,
           "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
     }
@@ -73,6 +77,7 @@ class Articles extends LazyLogging {
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
+          "highlighted" -> Set(),
           "root" -> root.toString,
           "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
     }
@@ -90,6 +95,7 @@ class Articles extends LazyLogging {
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
+          "highlighted" -> Set(),
           "root" -> root.toString,
           "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
     }
@@ -188,6 +194,7 @@ class Articles extends LazyLogging {
           "css" -> css.toString,
           "allTags" -> allTags,
           "root" -> root.toString,
+          "highlighted" -> HighlightJS.dependencies(content.body),
           "menu" -> menu.map { case (k, v) => asStringPandoc(k) -> v },
           "modifiedDate" -> lastModifiedTime.toString))
     }

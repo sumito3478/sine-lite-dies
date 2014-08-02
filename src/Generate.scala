@@ -9,6 +9,7 @@ import java.time.ZoneId
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import org.fusesource.scalate._
 import java.nio.file._
+import java.nio.file.attribute._
 import java.io._
 import org.yaml.snakeyaml.Yaml
 
@@ -19,13 +20,15 @@ import scala.sys.process._
 object Generate extends App with LazyLogging {
   val articles = new Articles
   val target = Paths.get("static-site")
+  def syncLastModifiedTime(src: Path, dst: Path) =
+    Files.setLastModifiedTime(src, Git.lastModifiedTime(Some(dst)).map(x => FileTime.from(x.toInstant)).getOrElse(Files.getLastModifiedTime(dst)))
   Files.createDirectories(target)
-  logger.info(Process(Seq("python3", "tools/build.py"), new File("highlight.js")).!!)
-  Files.copy(Paths.get("highlight.js/build/highlight.pack.js"), target.resolve("highlight.pack.js"), StandardCopyOption.REPLACE_EXISTING)
   Files.copy(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"), StandardCopyOption.REPLACE_EXISTING)
+  syncLastModifiedTime(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"))
   val out = new FileOutputStream(new File("static-site/style.css"))
   logger.info(Seq("npm", "install", "nib").!!)
   logger.info((Seq("stylus", "--include", "node_modules/nib/lib") #< new FileInputStream(new File("style.styl")) #> out).!!)
+  syncLastModifiedTime(Paths.get("style.styl"), target.resolve("style.css"))
   out.close
   try {
     for (article <- articles.articles) {
@@ -34,6 +37,7 @@ object Generate extends App with LazyLogging {
       logger.info(s"Converting ${article.path} to $dst")
       Files.createDirectories(dst.getParent)
       Files.write(dst, article.html.getBytes("UTF-8"))
+      syncLastModifiedTime(article.path, dst)
     }
     for (tag <- articles.tags) {
       val dst = target.resolve(tag.path)
