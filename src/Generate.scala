@@ -23,8 +23,8 @@ object Generate extends App with LazyLogging {
   def syncLastModifiedTime(src: Path, dst: Path) =
     Files.setLastModifiedTime(dst, Git.lastModifiedTime(Some(src)).map(x => FileTime.from(x.toInstant)).getOrElse(Files.getLastModifiedTime(src)))
   Files.createDirectories(target)
-  Files.copy(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"), StandardCopyOption.REPLACE_EXISTING)
-  syncLastModifiedTime(Paths.get("gwebfont.css"), target.resolve("gwebfont.css"))
+  Files.copy(Paths.get("eb-garamond-08-regular.woff"), target.resolve("eb-garamond-08-regular.woff"), StandardCopyOption.REPLACE_EXISTING)
+  syncLastModifiedTime(Paths.get("eb-garamond-08-regular.woff"), target.resolve("eb-garamond-08-regular.woff"))
   val out = new FileOutputStream(new File("static-site/style.css"))
   logger.info(Seq("npm", "install", "nib").!!)
   logger.info((Seq("stylus", "--include", "node_modules/nib/lib") #< new FileInputStream(new File("style.styl")) #> out).!!)

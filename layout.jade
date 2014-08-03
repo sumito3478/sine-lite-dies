@@ -17,6 +17,12 @@ html(lang='ja')
     meta(name='dcterms.date' content='#{modifiedDate}')
     title Sine Lite Dies - #{title}
     script(src='http://code.jquery.com/jquery-2.1.1.min.js')
+    style
+      :!plain
+        @font-face {
+          font-family: "EB Garamond";
+          src: url("#{root}/eb-garamond-08-regular.woff");
+        }
     link(rel='stylesheet' href='#{root}/style.css')
     - if (!highlighted.isEmpty)
       script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js')
