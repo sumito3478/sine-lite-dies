@@ -4,17 +4,10 @@ Copyright (C) 2014 sumito3478 <sumito3478@gmail.com>
 
 package sine.lite.dies
 
-import java.time.ZoneId
-
 import com.typesafe.scalalogging.slf4j.LazyLogging
-import org.fusesource.scalate._
 import java.nio.file._
 import java.nio.file.attribute._
 import java.io._
-import org.yaml.snakeyaml.Yaml
-
-import scala.annotation.tailrec
-import scala.collection.JavaConverters._
 import scala.sys.process._
 
 object Generate extends App with LazyLogging {
@@ -32,7 +25,6 @@ object Generate extends App with LazyLogging {
   out.close
   try {
     for (article <- articles.articles) {
-      //    Files.write(dst, output.getBytes("UTF-8"))
       val dst = target.resolve(article.path.toString.replaceFirst(".md$", ".html"))
       logger.info(s"Converting ${article.path} to $dst")
       Files.createDirectories(dst.getParent)
@@ -65,178 +57,4 @@ object Generate extends App with LazyLogging {
     case e: Throwable => logger.error("Exception occurred!", e)
   }
   sys.exit
-  //    logger.info("Try starting conversion!")
-  //    val article = Paths.get("article")
-  //    val target = Paths.get("static-site")
-  //    val menu = Seq(
-  //      "top" -> "index.html",
-  //      "tags" -> "tags.html")
-  //    val modifiedDate = java.time.LocalDate.now.toString
-  //    def asString(x: Any) = x match {
-  //      case x: java.util.Date => x.toInstant.atZone(ZoneId.systemDefault).toLocalDate.toString
-  //      case x => x.toString
-  //    }
-  //    def asStringPandoc(x: Any) = x match {
-  //      case x: String => PandocFilter.pandocConvert(x)
-  //      case x => asString(x)
-  //    }
-  //    case class Article(path: Path) {
-  //      lazy val src = new String(Files.readAllBytes(path), "UTF-8")
-  //
-  //      // TODO: make this typesafe
-  //      lazy val metaData: Map[String, Any] = {
-  //        val lines = src.lines.toList
-  //        val (acc, rest) = (for {
-  //          firstLine <- lines.headOption
-  //          if firstLine == "---"
-  //        } yield {
-  //          val (yaml, rest) = lines.tail.span(line => line != "---" && line != "...")
-  //          (List(yaml.mkString("\n")), rest.tail)
-  //        }) match {
-  //          case None => (List(), lines.tail)
-  //          case Some((yamls, rest)) => (yamls, rest)
-  //        }
-  //        @tailrec
-  //        def readRest(yamls: List[String], rest: List[String]): List[String] = {
-  //          (for {
-  //            firstLine <- rest.headOption
-  //            if firstLine.isEmpty
-  //            secondLine <- rest.tail.headOption
-  //            if secondLine == "---"
-  //            r = rest.tail.tail
-  //          } yield {
-  //            val (yaml, rest) = r.span(line => line != "---" || line != "...")
-  //            (yaml.mkString("\n"), rest.tail)
-  //          }) match {
-  //            case None if rest.isEmpty => yamls.reverse
-  //            case None => readRest(yamls, rest.tail)
-  //            case Some((yaml, rest)) => readRest(yaml :: yamls, rest)
-  //          }
-  //        }
-  //        val yamls = readRest(acc, rest)
-  //        val yaml = new Yaml
-  //        val metaDataList: List[Map[String, Any]] = for (y <- yamls) yield yaml.load(y) match {
-  //          case xs: java.util.Map[_, _] => xs.asScala.map { case (k, v) => asString(k) -> v }.toMap
-  //          case xs: java.util.List[_] => xs.asScala.toList.zipWithIndex.map { case (x, i) => s"_$i" -> x }.toMap
-  //        }
-  //        metaDataList.foldLeft(Map[String, Any]()) { case (acc, x) => acc ++ x }
-  //      }
-  //
-  //      lazy val tags: List[String] = metaData.lift("tags") match {
-  //        case x: java.util.List[_] => x.asScala.map(_.toString).toList
-  //        case _ => List()
-  //      }
-  //    }
-  //    val articles = Files.list(article).iterator.asScala.filter(_.getFileName.toString.endsWith(".md")).map(Article(_)).toList
-  //    val tagMap = articles.flatMap(_.tags).toSet.map(tag => tag -> articles.filter(_.tags.contains(tag))).toMap
-  //    val metaDataMap = for (article <- articles) yield {
-  //      val src = new String(Files.readAllBytes(article), "UTF-8")
-  //      // Read the YAML metadata block(s)
-  //      val lines = src.lines.toList
-  //      val (acc, rest) = (for {
-  //        firstLine <- lines.headOption
-  //        if firstLine == "---"
-  //      } yield {
-  //        val (yaml, rest) = lines.tail.span(line => line != "---" && line != "...")
-  //        logger.info(yaml.toString)
-  //        logger.info(rest.toString)
-  //        (List(yaml.mkString("\n")), rest.tail)
-  //      }) match {
-  //        case None => (List(), lines.tail)
-  //        case Some((yamls, rest)) => (yamls, rest)
-  //      }
-  //      @tailrec
-  //      def readRest(yamls: List[String], rest: List[String]): List[String] = {
-  //        (for {
-  //          firstLine <- rest.headOption
-  //          if firstLine.isEmpty
-  //          secondLine <- rest.tail.headOption
-  //          if secondLine == "---"
-  //          r = rest.tail.tail
-  //        } yield {
-  //          val (yaml, rest) = r.span(line => line != "---" || line != "...")
-  //          (yaml.mkString("\n"), rest.tail)
-  //        }) match {
-  //          case None if rest.isEmpty => yamls.reverse
-  //          case None => readRest(yamls, rest.tail)
-  //          case Some((yaml, rest)) => readRest(yaml :: yamls, rest)
-  //        }
-  //      }
-  //      val yamls = readRest(acc, rest)
-  //      val yaml = new Yaml
-  //      val metaDataList: List[Map[String, Any]] = for (y <- yamls) yield yaml.load(y) match {
-  //        case xs: java.util.Map[_, _] => xs.asScala.map { case (k, v) => asString(k) -> v }.toMap
-  //        case xs: java.util.List[_] => xs.asScala.toList.zipWithIndex.map { case (x, i) => s"_$i" -> x }.toMap
-  //      }
-  //      val metaData = metaDataList.foldLeft(Map[String, Any]()) { case (acc, x) => acc ++ x }
-  //
-  //    }
-  //    val metaDataList = (for (article <- articles) yield {
-  //      val dst = target.resolve(article.toString.replaceFirst(".md$", ".html"))
-  //      logger.info(s"Converting layout.jade and $article into $dst")
-  //      val src = new String(Files.readAllBytes(article), "UTF-8")
-  //      // Read the YAML metadata block
-  //      val lines = src.lines.toList
-  //      val (acc, rest) = (for {
-  //        firstLine <- lines.headOption
-  //        if firstLine == "---"
-  //      } yield {
-  //        val (yaml, rest) = lines.tail.span(line => line != "---" && line != "...")
-  //        logger.info(yaml.toString)
-  //        logger.info(rest.toString)
-  //        (List(yaml.mkString("\n")), rest.tail)
-  //      }) match {
-  //        case None => (List(), lines.tail)
-  //        case Some((yamls, rest)) => (yamls, rest)
-  //      }
-  //      @tailrec
-  //      def readRest(yamls: List[String], rest: List[String]): List[String] = {
-  //        (for {
-  //          firstLine <- rest.headOption
-  //          if firstLine.isEmpty
-  //          secondLine <- rest.tail.headOption
-  //          if secondLine == "---"
-  //          r = rest.tail.tail
-  //        } yield {
-  //          val (yaml, rest) = r.span(line => line != "---" || line != "...")
-  //          (yaml.mkString("\n"), rest.tail)
-  //        }) match {
-  //          case None if rest.isEmpty => yamls.reverse
-  //          case None => readRest(yamls, rest.tail)
-  //          case Some((yaml, rest)) => readRest(yaml :: yamls, rest)
-  //        }
-  //      }
-  //      val yamls = readRest(acc, rest)
-  //      val yaml = new Yaml
-  //      val metaDataList: List[Map[String, Any]] = for (y <- yamls) yield yaml.load(y) match {
-  //        case xs: java.util.Map[_, _] => xs.asScala.map { case (k, v) => asString(k) -> v }.toMap
-  //        case xs: java.util.List[_] => xs.asScala.toList.zipWithIndex.map { case (x, i) => s"_$i" -> x }.toMap
-  //      }
-  //      val metaData = metaDataList.foldLeft(Map[String, Any]()) { case (acc, x) => acc ++ x }
-  //      val engine = new TemplateEngine
-  //      val output = engine.layout("layout.jade",
-  //        Map("title" -> "Sine Lite Dies",
-  //          "contents" -> Seq(src),
-  //          "lang" -> "ja",
-  //          "css" -> "../style.css",
-  //          "menu" -> menu,
-  //          "modifiedDate" -> modifiedDate,
-  //          "metaData" -> metaData.mapValues(asStringPandoc _)))
-  //      logger.info(output)
-  //      Files.write(dst, output.getBytes("UTF-8"))
-  //      article -> metaData
-  //    }).toMap
-  //    val metaData = metaDataList.values.foldLeft(Map[String, Any]()) { case (acc, x) => acc ++ x }
-  //    val dst = target.resolve("index.html")
-  //    val engine = new TemplateEngine
-  //    val output = engine.layout("layout.jade",
-  //      Map("title" -> "Sine Lite Dies",
-  //        "contents" -> articles.map(x => new String(Files.readAllBytes(x), "UTF-8")),
-  //        "lang" -> "ja",
-  //        "css" -> "style.css",
-  //        "menu" -> menu,
-  //        "modifiedDate" -> modifiedDate,
-  //        "metaData" -> metaData.mapValues(asStringPandoc _)))
-  //    logger.info(output)
-  //    Files.write(dst, output.getBytes("UTF-8"))
 }
