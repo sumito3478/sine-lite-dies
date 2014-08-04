@@ -58,6 +58,8 @@ object Generate extends App with LazyLogging {
     logger.info(s"Converting the tag index into $tagsDst")
     Files.createDirectories(tagsDst.getParent)
     Files.write(tagsDst, articles.Tags.html.getBytes("UTF-8"))
+    val aboutDst = target.resolve(articles.About.path.toString.replaceFirst(".md$", ".html"))
+    Files.write(aboutDst, articles.About.html.getBytes("UTF-8"))
     logger.info("finished conversion")
   } catch {
     case e: Throwable => logger.error("Exception occurred!", e)

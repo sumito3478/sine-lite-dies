@@ -26,7 +26,7 @@ import Articles._
 
 class Articles extends LazyLogging {
   val article = Paths.get("article")
-  lazy val articles = Files.list(article).iterator.asScala.filter(_.getFileName.toString.endsWith(".md")).map(Article(_)).toList
+  lazy val articles = About :: Files.list(article).iterator.asScala.filter(_.getFileName.toString.endsWith(".md")).map(Article(_)).toList
   lazy val tagMap = articles.map(_.tags).flatten.toSet.map { tag: String => tag -> articles.filter(_.tags.contains(tag)) }.toMap
   lazy val allTags = articles.map(_.tags).flatten.toSet.toList.sorted
   case class Tag(name: String) {
@@ -100,6 +100,7 @@ class Articles extends LazyLogging {
           "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
     }
   }
+  object About extends Article(path = Paths.get("./about.md"))
   lazy val tags = allTags.map(Tag(_))
   case class Article(path: Path) {
     private[this] def asString(x: Any) = x match {
