@@ -6,6 +6,8 @@ tags: [about]
 # About
 書きかけ
 
+どんな人かはTwitterをみると 良い (′◡‵[　　　]
+
 ## Sine Lite Diesとは？
 口論のない日々[^1]という意味である(Mart. 2, 90)。
 
