@@ -17,10 +17,13 @@ html(lang='ja')
     meta(name='dcterms.date' content='#{modifiedDate}')
     title Sine Lite Dies - #{title}
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
+    :!javascript
+      sineLiteDies = {}
     /[if lt IE 9]
       script(src='http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js')
       script(src='http://cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js')
       script(src='http://cdnjs.cloudflare.com/ajax/libs/css3pie/2.0beta1/PIE_IE678.js')
+      script sineLiteDies.oldIE = true;
     style
       :!plain
         @font-face {
@@ -28,6 +31,22 @@ html(lang='ja')
           src: url("#{root}/eb-garamond-08-regular.woff");
         }
     link(rel='stylesheet' href='#{root}/style.css')
+    :!javascript
+      $(document).ready(function() {
+        // Fix Android Browser and IE8
+        var userAgent = navigator.userAgent;
+        if ((
+          userAgent.indexOf('Mozilla/5.0') > -1 &&
+          userAgent.indexOf('Android ') > -1 &&
+          userAgent.indexOf('AppleWebKit') > -1 &&
+          userAgent.indexOf('Chrome') <= -1) || sineLiteDies.oldIE ) {
+          var label = $('label#site-menu');
+          label.removeAttr('for');
+          label.click(function() {
+            $('aside#site-menu-content').toggle();
+          });
+        }
+      });
     - if (!highlighted.isEmpty)
       script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js')
       - for (lang <- highlighted)
