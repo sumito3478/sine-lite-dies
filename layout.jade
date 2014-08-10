@@ -17,6 +17,10 @@ html(lang='ja')
     meta(name='dcterms.date' content='#{modifiedDate}')
     title Sine Lite Dies - #{title}
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
+    /[if lt IE 9]
+      script(src='http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js')
+      script(src='http://cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js')
+      script(src='http://cdnjs.cloudflare.com/ajax/libs/css3pie/2.0beta1/PIE_IE678.js')
     style
       :!plain
         @font-face {
