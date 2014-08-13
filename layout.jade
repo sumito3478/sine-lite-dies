@@ -18,6 +18,7 @@ html(lang='ja')
     meta(name='author' content='sumito3478')
     meta(name='dcterms.date' content='#{updatedAt.toLocalDate}')
     title Sine Lite Dies - #{title}
+    link(type='application/atom+xml' rel='alternate' href='#{root}/feed.xml')
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
     :!javascript
       sineLiteDies = {}
