@@ -42,6 +42,8 @@ object Generate extends App with LazyLogging {
     logger.info(s"Converting all articles into $dst")
     Files.createDirectories(dst.getParent)
     Files.write(dst, all.html.getBytes("UTF-8"))
+    val allAtom = target.resolve(all.atomPath)
+    Files.write(allAtom, all.atom.getBytes("UTF-8"))
     val indexDst = target.resolve(articles.Index.path)
     logger.info(s"Converting the article index into $indexDst")
     Files.createDirectories(indexDst.getParent)
@@ -52,8 +54,6 @@ object Generate extends App with LazyLogging {
     Files.write(tagsDst, articles.Tags.html.getBytes("UTF-8"))
     val aboutDst = target.resolve(articles.About.path.toString.replaceFirst(".md$", ".html"))
     Files.write(aboutDst, articles.About.html.getBytes("UTF-8"))
-    val feedDst = target.resolve(articles.Feed.path)
-    Files.write(feedDst, articles.Feed.xml.getBytes("UTF-8"))
     logger.info("finished conversion")
   } catch {
     case e: Throwable => logger.error("Exception occurred!", e)

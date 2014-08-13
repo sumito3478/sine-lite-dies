@@ -50,6 +50,7 @@ class Articles extends LazyLogging {
           "allTags" -> allTags,
           "highlighted" -> HighlightJS.dependencies(contents.map(_.body).mkString("\n")),
           "root" -> root.toString,
+          "path" -> path.toString,
           "updatedAt" -> updatedAt,
           "createdAt" -> createdAt))
     }
@@ -70,6 +71,22 @@ class Articles extends LazyLogging {
           "allTags" -> allTags,
           "highlighted" -> HighlightJS.dependencies(contents.map(_.body).mkString("\n")),
           "root" -> root.toString,
+          "path" -> path.toString,
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
+    }
+    lazy val atomPath = path.toString.replaceFirst(".html$", ".xml")
+    def atom = {
+      val root = path.getParent.relativize(Paths.get("."))
+      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
+      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
+      engine.layout("feed.jade",
+        Map("title" -> s"Sine Lite Dies",
+          "contents" -> articles.map(_.content).sortBy(_.updatedAt.toInstant.toEpochMilli)(implicitly[Ordering[Long]].reverse),
+          "lang" -> "ja",
+          "root" -> root.toString,
+          "urn" -> Atom.stringToURN("sine.lite.dies.feed"),
+          "path" -> atomPath.toString,
           "updatedAt" -> updatedAt,
           "createdAt" -> createdAt))
     }
@@ -91,6 +108,7 @@ class Articles extends LazyLogging {
           "allTags" -> allTags,
           "highlighted" -> Set(),
           "root" -> root.toString,
+          "path" -> path.toString,
           "updatedAt" -> updatedAt,
           "createdAt" -> createdAt))
     }
@@ -111,22 +129,7 @@ class Articles extends LazyLogging {
           "allTags" -> allTags,
           "highlighted" -> Set(),
           "root" -> root.toString,
-          "updatedAt" -> updatedAt,
-          "createdAt" -> createdAt))
-    }
-  }
-  object Feed {
-    lazy val path = Paths.get("./feed.xml")
-    def xml = {
-      val root = Paths.get(".")
-      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
-      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
-      engine.layout("feed.jade",
-        Map("title" -> s"Sine Lite Dies",
-          "contents" -> articles.map(_.content).sortBy(_.updatedAt.toInstant.toEpochMilli)(implicitly[Ordering[Long]].reverse),
-          "lang" -> "ja",
-          "root" -> root.toString,
-          "urn" -> Atom.stringToURN("sine.lite.dies.feed"),
+          "path" -> path.toString,
           "updatedAt" -> updatedAt,
           "createdAt" -> createdAt))
     }
@@ -247,6 +250,7 @@ class Articles extends LazyLogging {
           "root" -> root.toString,
           "highlighted" -> HighlightJS.dependencies(content.body),
           "menu" -> menu.map { case (k, v) => asStringPandoc(k) -> v },
+          "path" -> path.toString,
           "updatedAt" -> updatedAt,
           "createdAt" -> createdAt))
     }

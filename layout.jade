@@ -9,6 +9,7 @@
 -@ val createdAt: ZonedDateTime
 -@ val root: String
 -@ val highlighted: Set[String]
+-@ val path: String
 !!! 5
 html(lang='ja')
   head
@@ -18,7 +19,7 @@ html(lang='ja')
     meta(name='author' content='sumito3478')
     meta(name='dcterms.date' content='#{updatedAt.toLocalDate}')
     title Sine Lite Dies - #{title}
-    link(type='application/atom+xml' rel='alternate' href='#{root}/feed.xml')
+    link(type='application/atom+xml' rel='alternate' href='http://sld.sumito3478.info/article/all.xml')
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
     :!javascript
       sineLiteDies = {}
