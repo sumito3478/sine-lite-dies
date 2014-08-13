@@ -1,10 +1,12 @@
 -@ val title: String
 - import sine.lite.dies._
+- import java.time._
 -@ val contents: Seq[Content]
 -@ val allTags: Seq[String]
 -@ val lang: String
 -@ val css: String
--@ val modifiedDate: String
+-@ val updatedAt: ZonedDateTime
+-@ val createdAt: ZonedDateTime
 -@ val root: String
 -@ val highlighted: Set[String]
 !!! 5
@@ -14,7 +16,7 @@ html(lang='ja')
     meta(name='generator' content='pandoc')
     meta(name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=yes')
     meta(name='author' content='sumito3478')
-    meta(name='dcterms.date' content='#{modifiedDate}')
+    meta(name='dcterms.date' content='#{updatedAt.toLocalDate}')
     title Sine Lite Dies - #{title}
     script(src='http://code.jquery.com/jquery-1.11.1.min.js')
     :!javascript
@@ -85,7 +87,7 @@ html(lang='ja')
       #document-contents
         :!pandoc-markdown
           # #{title}
-        - for (Content(body, metaData, tags, title, permalink) <- contents)
+        - for (Content(body, metaData, tags, title, permalink, updatedAt, createdAt, urn) <- contents)
           #document-content
             header
               :!pandoc-markdown
@@ -96,8 +98,10 @@ html(lang='ja')
                   dd
                     :!pandoc-markdown
                       #{data}
+                dt 初稿
+                dd #{createdAt.toLocalDate}
                 dt 最終更新日
-                dd #{modifiedDate}
+                dd #{updatedAt.toLocalDate}
                 dt tags
                 dd
                   - for (tag <- tags)

@@ -14,7 +14,7 @@ object Generate extends App with LazyLogging {
   val articles = new Articles
   val target = Paths.get("static-site")
   def syncLastModifiedTime(src: Path, dst: Path) =
-    Files.setLastModifiedTime(dst, Git.lastModifiedTime(Some(src)).map(x => FileTime.from(x.toInstant)).getOrElse(Files.getLastModifiedTime(src)))
+    Files.setLastModifiedTime(dst, Git.updatedAt(Some(src)).map(x => FileTime.from(x.toInstant)).getOrElse(Files.getLastModifiedTime(src)))
   Files.createDirectories(target)
   Files.copy(Paths.get("eb-garamond-08-regular.woff"), target.resolve("eb-garamond-08-regular.woff"), StandardCopyOption.REPLACE_EXISTING)
   syncLastModifiedTime(Paths.get("eb-garamond-08-regular.woff"), target.resolve("eb-garamond-08-regular.woff"))
@@ -52,6 +52,8 @@ object Generate extends App with LazyLogging {
     Files.write(tagsDst, articles.Tags.html.getBytes("UTF-8"))
     val aboutDst = target.resolve(articles.About.path.toString.replaceFirst(".md$", ".html"))
     Files.write(aboutDst, articles.About.html.getBytes("UTF-8"))
+    val feedDst = target.resolve(articles.Feed.path)
+    Files.write(feedDst, articles.Feed.xml.getBytes("UTF-8"))
     logger.info("finished conversion")
   } catch {
     case e: Throwable => logger.error("Exception occurred!", e)

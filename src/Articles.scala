@@ -1,8 +1,11 @@
 package sine.lite.dies
 
-import java.time.{ LocalDate, ZoneId }
+import java.nio.file.attribute.BasicFileAttributes
+import java.time.{ ZonedDateTime, LocalDate, ZoneId }
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
+import org.apache.commons.codec.binary.Base32
+import org.eclipse.jgit.lib.ObjectId
 import org.fusesource.scalate._
 import java.nio.file._
 import org.fusesource.scalate.scaml.ScamlOptions
@@ -11,6 +14,7 @@ import java.io._
 
 import scala.annotation.tailrec
 import scala.collection.JavaConverters._
+import Git.ObjectIdOps
 
 object Articles {
   val engine = new TemplateEngine
@@ -35,6 +39,8 @@ class Articles extends LazyLogging {
       val root = path.getParent.relativize(Paths.get("."))
       val css = path.getParent.relativize(Paths.get("style.css"))
       val articles = tagMap.lift(name).toList.flatten
+      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
+      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
       val contents = articles.map(_.content)
       engine.layout("layout.jade",
         Map("title" -> s"タグ $name",
@@ -44,7 +50,8 @@ class Articles extends LazyLogging {
           "allTags" -> allTags,
           "highlighted" -> HighlightJS.dependencies(contents.map(_.body).mkString("\n")),
           "root" -> root.toString,
-          "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
     }
   }
   object All {
@@ -52,16 +59,19 @@ class Articles extends LazyLogging {
     def html = {
       val root = path.getParent.relativize(Paths.get("."))
       val css = path.getParent.relativize(Paths.get("style.css"))
-      val contents = articles.sortBy(x => x.lastModifiedTime.toEpochDay)(implicitly[Ordering[Long]].reverse).map(_.content)
+      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
+      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
+      val contents = articles.sortBy(x => x.updatedAt.toInstant.toEpochMilli)(implicitly[Ordering[Long]].reverse).map(_.content)
       engine.layout("layout.jade",
         Map("title" -> s"全ての記事",
-          "contents" -> articles.sortBy(x => x.lastModifiedTime.toEpochDay)(implicitly[Ordering[Long]].reverse).map(_.content),
+          "contents" -> contents,
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
           "highlighted" -> HighlightJS.dependencies(contents.map(_.body).mkString("\n")),
           "root" -> root.toString,
-          "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
     }
   }
   object Index {
@@ -69,17 +79,20 @@ class Articles extends LazyLogging {
     def html = {
       val root = Paths.get(".")
       val css = Paths.get("style.css")
-      val as = articles.sortBy(_.lastModifiedTime.toEpochDay)(implicitly[Ordering[Long]].reverse)
+      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
+      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
+      val as = articles.sortBy(_.updatedAt.toInstant.toEpochMilli)(implicitly[Ordering[Long]].reverse)
       val indexMarkdown = as.map(x => s"- [${x.content.title}](${x.path.toString.replaceFirst(".md$", ".html")})").mkString("", "\n", "\n")
       engine.layout("layout.jade",
         Map("title" -> s"INDEX",
-          "contents" -> Seq(Content(body = indexMarkdown, metaData = Map(), tags = List(), title = "記事一覧", permalink = path.toString)),
+          "contents" -> Seq(Content(body = indexMarkdown, metaData = Map(), tags = List(), title = "記事一覧", permalink = path.toString, updatedAt = updatedAt, createdAt = createdAt, urn = Atom.stringToURN("sine.lite.dies.index"))),
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
           "highlighted" -> Set(),
           "root" -> root.toString,
-          "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
     }
   }
   object Tags {
@@ -87,17 +100,35 @@ class Articles extends LazyLogging {
     def html = {
       val root = Paths.get(".")
       val css = Paths.get("style.css")
-      val as = articles.sortBy(_.lastModifiedTime.toEpochDay)(implicitly[Ordering[Long]].reverse)
       val indexMarkdown = allTags.map(tag => s"- [$tag](tag/$tag.html)").mkString("", "\n", "\n")
+      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
+      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
       engine.layout("layout.jade",
         Map("title" -> s"TAGS",
-          "contents" -> Seq(Content(body = indexMarkdown, metaData = Map(), tags = List(), title = "タグ一覧", permalink = path.toString)),
+          "contents" -> Seq(Content(body = indexMarkdown, metaData = Map(), tags = List(), title = "タグ一覧", permalink = path.toString, updatedAt = updatedAt, createdAt = createdAt, urn = Atom.stringToURN("sine.lite.dies.tags"))),
           "lang" -> "ja",
           "css" -> css.toString,
           "allTags" -> allTags,
           "highlighted" -> Set(),
           "root" -> root.toString,
-          "modifiedDate" -> articles.map(_.lastModifiedTime).maxBy(x => x.toEpochDay).toString))
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
+    }
+  }
+  object Feed {
+    lazy val path = Paths.get("./feed.xml")
+    def xml = {
+      val root = Paths.get(".")
+      val updatedAt = articles.map(_.updatedAt).maxBy(x => x.toInstant.toEpochMilli)
+      val createdAt = articles.map(_.createdAt).maxBy(x => x.toInstant.toEpochMilli)
+      engine.layout("feed.jade",
+        Map("title" -> s"Sine Lite Dies",
+          "contents" -> articles.map(_.content).sortBy(_.updatedAt.toInstant.toEpochMilli)(implicitly[Ordering[Long]].reverse),
+          "lang" -> "ja",
+          "root" -> root.toString,
+          "urn" -> Atom.stringToURN("sine.lite.dies.feed"),
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
     }
   }
   object About extends Article(path = Paths.get("./about.md"))
@@ -162,11 +193,13 @@ class Articles extends LazyLogging {
       metaData = metaData.filterKeys(!List("tags", "title").contains(_)).mapValues(asStringPandoc(_)),
       tags = tags,
       title = title,
-      permalink = path.toString.replaceFirst(".md$", ".html"))
-    lazy val lastModifiedTime = {
-      import scala.sys.process._
+      permalink = path.toString.replaceFirst(".md$", ".html"),
+      updatedAt = updatedAt,
+      createdAt = createdAt,
+      urn = creationId.toURN)
+    lazy val updatedAt: ZonedDateTime = {
       import scala.util.control.Exception
-      val last = Exception.allCatch[Option[LocalDate]].either(Git.lastModifiedTime(Some(path)).map(_.toLocalDate)) match {
+      val ret = Exception.allCatch[Option[ZonedDateTime]].either(Git.updatedAt(Some(path))) match {
         case Left(e) =>
           logger.error("Failed to get last modified date from git log", e)
           None
@@ -174,12 +207,29 @@ class Articles extends LazyLogging {
           None
         case Right(Some(x)) => Some(x)
       }
-      val lmt = last.getOrElse {
+      ret.getOrElse {
         logger.warn("Could not get last modified date from git log, falling back to information from the file system")
-        Files.getLastModifiedTime(path).toInstant.atZone(ZoneId.systemDefault).toLocalDate
+        Files.getLastModifiedTime(path).toInstant.atZone(ZoneId.systemDefault)
       }
-      logger.info(lmt.toString)
-      lmt
+    }
+    lazy val createdAt = {
+      import scala.util.control.Exception
+      val ret = Exception.allCatch[Option[ZonedDateTime]].either(Git.createdAt(Some(path))) match {
+        case Left(e) =>
+          logger.error("Failed to get last modified date from git log", e)
+          None
+        case Right(None) =>
+          None
+        case Right(Some(x)) => Some(x)
+      }
+      ret.getOrElse {
+        logger.warn("Could not get  date from git log, falling back to information from the file system")
+        val attr = Files.readAttributes(path, classOf[BasicFileAttributes])
+        attr.creationTime.toInstant.atZone(ZoneId.systemDefault)
+      }
+    }
+    lazy val creationId = {
+      Git.creationId(path).getOrElse(sys.error("Could not get creation id"))
     }
     def html: String = {
       val menu = Seq(
@@ -197,7 +247,8 @@ class Articles extends LazyLogging {
           "root" -> root.toString,
           "highlighted" -> HighlightJS.dependencies(content.body),
           "menu" -> menu.map { case (k, v) => asStringPandoc(k) -> v },
-          "modifiedDate" -> lastModifiedTime.toString))
+          "updatedAt" -> updatedAt,
+          "createdAt" -> createdAt))
     }
   }
 }
