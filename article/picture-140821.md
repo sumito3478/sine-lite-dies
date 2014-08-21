@@ -28,11 +28,14 @@ tags: [material/picture/cc0 material/cc0/picture]
 
 # 原寸のファイル
 
-解像度は2894x4093。PSDファイルはレイヤ情報を残している。Gimpだとレイヤ合成に違いがあるのか
-塗りがはみ出てしまうので、修正してXCFファイルも用意するつもり。
+解像度は2894x4093。PSDファイルはレイヤ情報を残している。
+
+最初に公開したバージョンはGIMPで見ると塗りがはみ出してしまっていたが、とりあっとぐぬぬ様に
+修正していただいた。GIMPがクリッピングに対応していないのが原因だったようだ。
 
 - [PNGファイル](../annex/picture-140821.png)
-- [PSDファイル](../annex/picture-140821.psd)
+- [PSDファイル](../annex/picture-140821-1.psd)
+- [XCFファイル](../annex/picture-140821-1.xcf)
 
 <div class="notes">
 <p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
