@@ -85,7 +85,7 @@ object Build extends Build {
           "org.slf4j" % "jcl-over-slf4j" % "1.7.7",
           "org.slf4j" % "jul-to-slf4j" % "1.7.7",
           "org.slf4j" % "log4j-over-slf4j" % "1.7.7",
-          "org.yaml" % "snakeyaml" % "1.14-SNAPSHOT",
+          "org.yaml" % "snakeyaml" % "1.15",
           "org.slf4j" % "slf4j-api" % "1.7.7"))
 
   lazy val `reflect-core` = project settings (commonSettings: _*)
