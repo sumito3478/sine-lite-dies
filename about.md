@@ -1,5 +1,8 @@
 ---
 title: ABOUT
+author: sumito3478
+createdAt: 2014-08-04
+date: 2015-05-16
 tags: [about]
 ---
 
@@ -33,14 +36,19 @@ tags: [about]
 ## アカウントとリンク
 このサイト
 :    [Sine Lite Dies](http://sld.sumito3478.info/)
+
 Twitter
 :    [sumito3478](https://twitter.com/sumito3478)
+
 Twitter（英語用アカウント）
 :    [sumito3478\_en](https://twitter.com/sumito3478_en)
+
 GitHub
 :    [sumito3478](https://github.com/sumito3478)
+
 GitHub（Volpts組織アカウント）
 :    [volpts](https://github.com/volpts)
+
 Amazonウィッシュリスト（まだ空）
 :    [sumito3478-wish-list](http://www.amazon.co.jp/registry/wishlist/2MQI5DH3S38EG)
 

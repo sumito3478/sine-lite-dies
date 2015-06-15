@@ -1,9 +1,10 @@
 ---
 title: Gitでの最終更新コミットの日時をjava.time.ZonedDateTimeに変換する
 author: sumito3478
+createdAt: 2014-08-02
 date: 2014-08-02
 lang: ja
-tags: [programming/scala, programming/git]
+tags: [programming, scala, git]
 ---
 
 # Gitでの最終更新コミットの日時をjava.time.ZonedDateTimeに変換する

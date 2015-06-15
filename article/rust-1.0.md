@@ -1,6 +1,9 @@
 ---
 title: 祝・プログラミング言語 Rust 1.0 リリース
-tags: [rust]
+author: sumito3478
+createdAt: 2015-05-16
+date: 2015-05-16
+tags: [rust, programming]
 ---
 
 

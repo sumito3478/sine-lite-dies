@@ -1,9 +1,10 @@
 ---
 title: 初めて絵を有償依頼してみたのでCC0で公開する
 author: sumito3478
-date: 2014-08-21
+createdAt: 2014-08-21
+date: 2014-08-22
 lang: ja
-tags: [material/picture/cc0 material/cc0/picture]
+tags: [material, picture, cc0]
 ---
 
 # 初めて絵を有償依頼してみたのでCC0で公開する

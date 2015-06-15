@@ -1,9 +1,10 @@
 ---
 title: text-rendering optimizeLegibility
 author: sumito3478
+createdAt: 2014-08-03
 date: 2014-08-03
 lang: ja
-tags: [programming/web/css]
+tags: [programming, web, css]
 ---
 
 # text-rendering optimizeLegibility
@@ -18,18 +19,22 @@ _この記事を書いている時点でのFirefoxは、調整の有無が性能
 
 <div class=".text" lang="la">
 <div style="text-rendering: optimizeLegibility">
+
 - Cuius, uis <span style="text-decoration: underline">fi</span>eri, libelle munus?
 - verum video med ad saxa ferri saevis <span style="text-decoration: underline">fl</span>uctibus.
 - haec dabit a<span style="text-decoration: underline">ff</span>ectus: ille excludatur amicus  
   iam senior, cuius barbam tua ianua vidit.
 - VALERIANUS
+
 </div>
 <div style="text-rendering: optimizeSpeed">
+
 - Cuius, uis <span style="text-decoration: underline">fi</span>eri, libelle munus?
 - verum video med ad saxa ferri saevis <span style="text-decoration: underline">fl</span>uctibus.
 - haec dabit a<span style="text-decoration: underline">ff</span>ectus: ille excludatur amicus  
   iam senior, cuius barbam tua ianua vidit.
 - VALERIANUS
+
 </div>
 </div>
 
@@ -45,10 +50,12 @@ _この記事を書いている時点でのFirefoxは、調整の有無が性能
 合字を使っている例だ。
 
 <div class=".text" lang="la" style="text-rendering: optimizeSpeed">
+
 - Cuius, uis <span style="text-decoration: underline">ﬁ</span>eri, libelle munus?
 - verum video med ad saxa ferri saevis <span style="text-decoration: underline">ﬂ</span>uctibus.
 - haec dabit a<span style="text-decoration: underline">ﬀ</span>ectus: ille excludatur amicus  
   iam senior, cuius barbam tua ianua vidit.
+
 </div>
 
 Unicodeの合字は'Alphabetic Presentation Forms'というブロックに58字定義されている。

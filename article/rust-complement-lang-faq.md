@@ -1,7 +1,8 @@
 ---
 title: Rust言語FAQ和訳
-tags: [ rust/doc ]
-toc: true
+createdAt: 2015-05-16
+date: 2015-05-16
+tags: [ rust, doc, translation ]
 ---
 
 <div class="rust-doc" lang="ja">

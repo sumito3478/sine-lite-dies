@@ -1,9 +1,10 @@
 ---
 title: Scalateで独自のフィルタを定義する
 author: sumito3478
+createdAt: 2014-08-01
 date: 2014-08-01
 lang: ja
-tags: [programming/scala/scalate]
+tags: [programming, scala, scalate]
 ---
 
 # Scalateで独自のフィルタを定義する
