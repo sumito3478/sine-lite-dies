@@ -2,7 +2,7 @@
 title: Scalateで独自のフィルタを定義する
 author: sumito3478
 createdAt: 2014-08-01
-date: 2014-08-01
+date: 2015-11-22
 lang: ja
 tags: [programming, scala, scalate]
 ---
@@ -17,7 +17,7 @@ Scaml（[Haml](http://haml-lang.com/)の方言）,
 Jade（[Jade](http://scalate.fusesource.org/documentation/jade.html)の方言）,
 SSP(Velocity/JSP/Erbに似たフォーマット)に（一部方言はあるが）対応した
 テンプレートエンジンだ。
-もし読者が[http://sld.sumito3478.info/](http://sld.sumito3478.info)にあるHTMLでこの記事を見ているならば、
+もし読者が[https://sld.u8.nu/](https://sld.u8.nu)にあるHTMLでこの記事を見ているならば、
 そのHTMLもScalateと[Pandoc](http://johnmacfarlane.net/pandoc/)を使ってJadeとMarkdownから生成されている。
 
 ## ScalateでJadeのフィルタ

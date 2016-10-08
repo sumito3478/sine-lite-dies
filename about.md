@@ -2,7 +2,7 @@
 title: ABOUT
 author: sumito3478
 createdAt: 2014-08-04
-date: 2015-05-16
+date: 2015-11-22
 tags: [about]
 ---
 
@@ -26,14 +26,20 @@ tags: [about]
 
 ハンドルネームだ。
 
-## Volptsとは？　Volptsってなにさ？
-ラテン語のvoluptas（快楽）から母音を抜いて英語っぽくしてみた。
-何かの名前に使う。
-ひとまずGitHubの組織アカウント名に使っている。ちなみにまだ（GitHub上では）ひとり組織だ。
+## U8NU とは？　U8NU ってなにさ？
+短いドメインを探していたら u8.nu を取得できた。
+文字数だけ見れば co.jp と対等だね！
+
+U8NU は u8.nu ドメインに由来して命名した組織名。
+何らかの会のようなものをつくろうとしていて、
+いろいろな名前を考えていたが深い由来のある名前だと
+どうしても怪しい組織みたいな名前になってしまった。
+そこでいっそ意味のない名前をつければ良いのではないかということになり、
+たまたま取得できたドメインにちなんで U8NU という名前になった。
 
 ## アカウントとリンク
 このサイト
-:    [Sine Lite Dies](http://sld.sumito3478.info/)
+:    [Sine Lite Dies](https://sld.u8.nu/)
 
 Twitter
 :    [sumito3478](https://twitter.com/sumito3478)
@@ -44,8 +50,8 @@ Twitter（英語用アカウント）
 GitHub
 :    [sumito3478](https://github.com/sumito3478)
 
-GitHub（Volpts組織アカウント）
-:    [volpts](https://github.com/volpts)
+GitHub（組織アカウント）
+:    [U8NU](https://github.com/u8nu)
 
 Amazonウィッシュリスト（まだ空）
 :    [sumito3478-wish-list](http://www.amazon.co.jp/registry/wishlist/2MQI5DH3S38EG)
@@ -58,7 +64,8 @@ Amazonウィッシュリスト（まだ空）
       [Saare](https://github.com/volpts/saare)（マクロを多用、あんまり開発進んでない
     - このサイトはScalaで書いた自作静的サイトジェネレータで生成している
       [Sine Lite Dies](https://github.com/sumito3478/sine-lite-dies)
-      が、あまりmaturedではない…
+      が、あまりmaturedではない→ECMAScript6で書きなおした([Contenttic](https://github.com/u8nu/contenttic))
+    - 他にもいろいろ増えた。後で書く。
 - Arch Linux
     * 自作パッケージ
         + [AUR](https://aur.archlinux.org/packages/?SeB=m&K=sumito3478)
@@ -68,7 +75,7 @@ Amazonウィッシュリスト（まだ空）
     * [Rust 言語 FAQ 和訳](/article/rust-complement-lang-faq.html)
     * [Rust リファレンス和訳](/article/rust-reference.html)
 - ECMAScript! [Babel](https://babeljs.io/)でES6やES7の新機能を使ったりしている。
-- 自作言語VolptsScriptの開発（レポジトリをつくったりこわしたりしてややこしいことになっているのでいちいち公開せずまだ未公開）
+- 自作言語Bijiの開発（レポジトリをつくったりこわしたりしてややこしいことになっているのでいちいち公開せずまだ未公開）
 - ラテン語（マールティアーリス）
 - そのほか（いずれ書く
 

@@ -2,14 +2,14 @@
 title: Gitでの最終更新コミットの日時をjava.time.ZonedDateTimeに変換する
 author: sumito3478
 createdAt: 2014-08-02
-date: 2014-08-02
+date: 2015-11-22
 lang: ja
 tags: [programming, scala, git]
 ---
 
 # Gitでの最終更新コミットの日時をjava.time.ZonedDateTimeに変換する
 
-もし読者が[http://sld.sumito3478.info/](http://sld.sumito3478.info)にあるHTMLでこの記事を見ているならば、
+もし読者が[https://sld.u8.nu/](https://sld.u8.nu)にあるHTMLでこの記事を見ているならば、
 そのHTMLは自作の静的サイトジェネレータを用いて生成されている。
 静的サイトジェネレータの機能として、元になるMarkdownファイルのGitでの最終更新コミットの日時を取得して、HTMLに最終更新日を載せている。
 
