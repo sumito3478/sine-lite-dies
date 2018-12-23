@@ -4,6 +4,7 @@ author = "Takezoe,Tomoaki"
 createdAt = "2014-08-04"
 date = "2018-12-23"
 menu = "main"
+image = "image/logo.jpg"
 tags = [
   "about"
 ]

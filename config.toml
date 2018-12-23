@@ -7,7 +7,7 @@ copyright = "Copyright (c) 2014-2018 Takezoe,Tomoaki"
 [params]
   description = "Takezoe,Tomoakiのブログ"
   author = "Takezoe,Tomoaki"
-  # logo = ""
+  logo = "image/logo.jpg"
 
 [taxonomies]
   category = "category"
