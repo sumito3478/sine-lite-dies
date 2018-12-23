@@ -1,0 +1,17 @@
+[posts]
+other = "記事"
+
+[about]
+other = "このサイトについて"
+
+[writtenBy]
+other = "投稿者："
+
+[on]
+other = "投稿日："
+
+[generator]
+other = "Made with <a href='https://gohugo.io'>Hugo</a> using customized version of the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme."
+
+[publishdate]
+other = "{{ .PublishDate.Format \"January 2, 2006\" }}"
