@@ -1,8 +1,16 @@
----
-title: "自作言語 Orphos の実装 Mullos を支える（予定の）言語実装技術（2018）"
-date: 2018-12-23T14:23:10+09:00
-draft: false
----
++++
+title = "自作言語 Orphos の実装 Mullos を支える（予定の）言語実装技術（2018）"
+date = 2018-12-23T14:23:10+09:00
+draft = false
+summary = "言語実装 Advent Calendar 2018の23日の記事。自作言語Orphosの実装Mullosを支える技術を紹介する。のだが、さっぱり実装が進んでいないので、支える予定の技術ということになる。"
+tags = [
+  "orphos",
+  "mullos",
+  "programming",
+  "llvm",
+  "gc"
+]
++++
 
 この記事は、[言語実装 Advent Calendar 2018](https://qiita.com/advent-calendar/2018/lang_dev)の23日の記事だ。
 

@@ -8,6 +8,7 @@ image = "image/logo.jpg"
 tags = [
   "about"
 ]
+summary = "このサイトについての説明。"
 +++
 
 ## このサイトは
