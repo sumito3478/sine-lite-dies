@@ -2,10 +2,10 @@ baseURL = "https://sld.res.ac/"
 languageCode = "ja"
 title = "Sine Lite Dies"
 theme = "minimage"
-copyright = "Copyright (c) 2018 Takezoe,Tomoaki"
+copyright = "Copyright (c) 2014-2018 Takezoe,Tomoaki"
 
 [params]
-  description = "This is desc"
+  description = "Takezoe,Tomoakiのブログ"
   author = "Takezoe,Tomoaki"
   # logo = ""
 
