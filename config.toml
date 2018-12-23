@@ -1,7 +1,7 @@
 baseURL = "https://sld.res.ac/"
 languageCode = "ja"
 title = "Sine Lite Dies"
-theme = "minimage"
+theme = "tale"
 copyright = "Copyright (c) 2014-2018 Takezoe,Tomoaki"
 
 [params]
