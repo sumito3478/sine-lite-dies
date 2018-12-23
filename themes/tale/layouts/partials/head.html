@@ -30,5 +30,16 @@
 	
 		<!-- RSS -->
 		<link href="{{ .RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+
+    <!-- Web Font -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+WebFont.load({
+    custom: {
+         families: ['Corporae Mincho'],
+         urls: ['/css/font.css']
+    }
+});
+    </script>
 	</head>
 	
