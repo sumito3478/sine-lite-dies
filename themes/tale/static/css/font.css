@@ -1,8 +1,4 @@
 @font-face {
-  font-family: "Corporate Mincho";
-  src: url("/font/logotypejp_corpmin.woff2") format("woff2");
-};
-@font-face {
   font-family: "ET Book";
   src: url("/font/et-book-roman-line-figures.woff2") format("woff2");
 };

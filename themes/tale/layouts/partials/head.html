@@ -28,14 +28,6 @@
 		<!-- RSS -->
 		<link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
 		<!-- Web Font -->
-		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-		<script>
-		WebFont.load({
-		  custom: {
-		    families: ['Corporae Mincho'],
-		    urls: ['/css/font.css']
-		  }
-		});
-		</script>
+		<link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP:200&display=swap&subset=japanese" rel="stylesheet" /> 
 	</head>
 
