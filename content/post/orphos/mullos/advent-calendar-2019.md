@@ -159,7 +159,7 @@ LLVMバックエンドの場合、関数に`linkonce_odr`をつければリン�
 去年は「（単相かという戦略を選ぶことによる）コンパイル時間やコードサイズは長期的な課題とする」と書いたが、
 少なくともMLtonの場合、単相化によりコードが単純化され、かえってコードサイズは小さいらしい[^mlton-codesize]。
 
-[^mlton-codesize]: あとで出典を書く。
+[^mlton-codesize]: http://mlton.org/Performance#CodeSize , https://news.ycombinator.com/item?id=7965709
 
 ## オーバーローディングのある言語へのFFI
 将来C++やJVM言語や.NET言語へのFFIを実装する場合、オーバーロードされた関数をどうやって呼ぶかという問題がある。OCaml-Java等では引数の型を明示しなければならない。しかしできればある程度は推論して、自動で選択ができない場合にのみ型を書くようにしたい。
