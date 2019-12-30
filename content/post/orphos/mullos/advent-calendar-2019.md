@@ -199,7 +199,7 @@ AzulのなプロプライエタリなJVMのLLVMベースの高性能JITコンパ
 Immix GCなどの効率の良いメモリレイアウトを使えば差が大きく縮まるとの
 研究があり[^refcnt-paper]、Jikes RVMというJVM向けのGCの実装（Jikes RVMではJava言語でJVMがかけるのだ）が[RCImmix](https://github.com/rifatshahriyar/rcimmixpatch)の名で公開されている。
 
-[^refcnt-paper]: 後で出典を書く。
+[^refcnt-paper]: https://www.researchgate.net/publication/254006302_Down_for_the_Count_Getting_reference_counting_back_in_the_ring
 
 また、GCの研究にはJVMを対象とするものが多く[要出典]、ミューテータがマルチスレッドで動くことを前提としているわけだが、Orphosではヒープをファイバーごとに分けるので参照カウントの更新にアトミック命令が必要ない。
 
