@@ -1,2 +1,12 @@
 <h1 class="post-title">{{ .Title }}</h1>
 <div class="post-line"></div>
+<nav id="toc">
+<h1 id="toc_heading">目次</h1>
+<input id="toc_toggle" type="checkbox"></input>
+[
+<label id="toc_toggle_label" for="toc_toggle"></label>
+]
+<div id="toc_ul">
+{{.TableOfContents}}
+</div>
+</nav>
