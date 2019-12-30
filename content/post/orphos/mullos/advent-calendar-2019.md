@@ -226,7 +226,7 @@ Immix GCなどの効率の良いメモリレイアウトを使えば差が大き
 
 WebAssembly MVPでは末尾呼び出しができない。WebAssemblyで末尾再帰するための命令return_call(_indirect)のサポートがLLVMに入っているようだが[^llvm-wasm-tail]、WebAssembly MVPでは使えないので処理系のサポートを待つか非ネイティブ（？）な解決策をとる必要がある。例外がネイティブサポートされておらず遅いので例外を使う解決方法も遅そうなのがつらい。
 
-[^llvm-wasm-tail]: あとで出典を書く。
+[^llvm-wasm-tail]: https://github.com/llvm/llvm-project/blob/llvmorg-9.0.1/llvm/lib/Target/WebAssembly/WebAssemblyISelLowering.cpp#L791
 
 JVMは[Project Loom](https://wiki.openjdk.java.net/display/loom/Main)が使えるようになれば末尾呼び出しができるようになる。それどころか限定継続さえできるようになるらしい。[JDK13にProject Loomを見据えたSocket APIの新実装が追加されている](https://bugs.openjdk.java.net/browse/JDK-8218559)ので本気度は高そうだ。
 が、Project Loomが本家に入ってその入ったJDKがLTSになって…となるとだいぶ先かもしれない。ぼくはJVMをよく使っているのでそれまでOrphos言語が使えないのはつらい。あとAndroid。
