@@ -1,5 +1,5 @@
 ---
-title: "自作のML方言Orphosを支えつつある技術"
+title: "自作のML系言語Orphosを支えつつある技術"
 date: 2019-12-20T19:47:35+09:00
 draft: false
 tags: [
