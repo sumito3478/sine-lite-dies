@@ -19,7 +19,7 @@ summary: "言語実装 Advent Calendar 2019の20日目の記事。1年かけて�
 1年かけて知見が増えたので、半ばアップデートするように今回の記事を書く。
 本当は明確なトピックを対象に書きたいのだがまた雑多になってしまった…。
 
-しかし今回は、字句解析・構文解析・elaboration[^elab-translation]まで、OCamlである程度[実装](https://github.com/orphos/orphos/tree/v1.0.0-m.3/mullos)[^orphos-license]したものがある（まともに動くとは言っていない）。
+しかし今回は、字句解析・構文解析・elaboration[^elab-translation]まで、OCamlである程度[実装](https://github.com/orphos/orphos/tree/v1.0.0-m.4/mullos)[^orphos-license]したものがある（まともに動くとは言っていない）。
 しばらく実装が中断していたが再開するので、 この記事はしばらくは実装や知見の進みに応じて更新するかもしれない[^git-history]。
 
 [^elab-translation]: elaborationの定訳ってあるのかな。
