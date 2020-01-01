@@ -17,7 +17,7 @@ tags = [
 自作言語 Orphos （おるぽす）の実装 Mullos （むっろす）を支える（予定の）技術のうち、言語実装と関係の深いものを雑多に紹介する。
 本当は紹介したうえで「こちらが実践例になります」とやりたかったのだがさっぱり実践できていない。まあ年末年始進めよう。
 
-## 最適化とコード生成
+## 最適化とコード生成 {#optimization-and-code-generation}
 最適化とコードジェネレータには[LLVM](https://llvm.org/)を使う。その理由は、
 
 - CPUベンダがオープンソースのコンパイラフレームワークにアーキチェクチャ依存の最適化をコントリビュートする場合、GCCとLLVMを優先的に対象にするだろう。
@@ -27,7 +27,7 @@ tags = [
 - WebAssemblyに対応している（たぶんmusttail/tailに対応してないと思うけれども）。
 - [OMR](https://github.com/eclipse/omr)などのJIT前提のフレームワークと違って、LLVMはJITとAOTの両方で使われている。
 
-### 呼び出し規約
+### 呼び出し規約 {#calling-convention}
 デフォルトの呼び出し規約として、cc 11（HiPEの呼び出し規約）を使う。
 
 [LLVM Language Reference](https://llvm.org/docs/LangRef.html)に書かれている呼び出し規約のうち、
@@ -45,7 +45,7 @@ Algebraic Effect Handlerの機構は再開可能な例外機構みたいなも�
 ジャンプを実行する関数の呼び出し規約をcc 11にすれば、退避は呼び出し側でLLVMが行ってくれる。
 呼び出し側で使われていないレジスタがあれば退避をスキップできる。
 
-### 型パラメータの実装
+### 型パラメータの実装 {#type-parameter}
 C++のテンプレートのように、LLVMのlinkonce_odrというLinkage Typeをつけた関数を型パラメータごとに生成する。
 また、型クラスの実装も暗黙引数[^implicit-param]とかにせずに、静的に解決して直接呼び出しする。
 
@@ -54,7 +54,7 @@ C++のテンプレートのように、LLVMのlinkonce_odrというLinkage Type�
 性能もさることながら、いったん特殊化してしまえば、具象型だけ考えればよくなるのでコード生成の実装も簡単になるのではないかと思っている。
 コンパイル時間やコードサイズは長期的な課題とする。
 
-## GC
+## GC {#gc}
 デフォルトで正確なGCを行う。
 
 保守的GCは[データ構造がGC-robustかどうか気にしないといけない](http://www.hpl.hp.com/techreports/2001/HPL-2001-251.pdf)。
@@ -63,11 +63,11 @@ GC-robustでないデータ構造をつくってしまうと、制限なしの�
 書き手に気をつけさせるのは望ましくないので、言語としてGC-robustでないデータ構造を作れないようにするべきだが、その気はない。
 正確なGCをするしかない。
 
-### スタックの走査・リロケーション
+### スタックの走査・リロケーション {#stack-scan-and-relocation}
 正確なスタック走査・リロケーションのため、LLVMのGC機構を使う。
 シャドウスタックとSafepointsのふたつのGC機構が候補になる。
 
-#### シャドウスタック
+#### シャドウスタック {#shadow-stack}
 スタックに配置したポインタ（へのポインタ）のリストを管理する。
 スタックを走査するときはリストをたどれば良いし、リロケーション時にはスタック上のポインタを更新すれば良い。
 
@@ -81,7 +81,7 @@ LLVMには[シャドウスタックを実現するためのサポートがある
 LLVMのもうひとつのGCサポートであるStatepointsのドキュメントには、
 [gcrootの機構には歴史的関心しか残されていないが、例外としてシャドウスタックの実装はサポートされるとある](https://llvm.org/docs/Statepoints.html#status)。
 
-#### Statepoints
+#### Statepoints {#state-points}
 [スタックマップをつくるらしい](https://llvm.org/docs/Statepoints.html#stack-map-format)。
 AzulのなプロプライエタリなJVMのLLVMベースの高性能JITコンパイラFalconで使われているらしいので、速いのだろう。
 
@@ -90,7 +90,7 @@ OCamlのGCもスタックマップを使っているらしいので[要出典]�
 [There are a couple places where bugs might still linger](https://llvm.org/docs/Statepoints.html#status)とあるなど
 面倒なので長期的目標とする。
 
-### ヒープの分離
+### ヒープの分離 {#heap-separation}
 ファイバーごとにヒープを分離する。
 他のファイバーにメッセージを送るときにはコピーが行われる。
 
@@ -101,12 +101,12 @@ OCamlのGCもスタックマップを使っているらしいので[要出典]�
 ポインタを含まない大きな（ページサイズ以上とか）オブジェクトは独立したヒープに確保して、
 何個のファイバーから参照されているかの参照カウントを管理するようにする。
 
-### Semispace copying GC
+### Semispace copying GC {#semispace-copying-gc}
 ファイバーごとにヒープを分離することにより、semispaceなコピーGCが充分実用的になるかもしれない。
 GCが他のファイバーを止めないし、GC中のファイバーのぶんしかメモリ使用量が2倍にならない。
 
-## 自動定理証明
-### 型クラスの法則の検査
+## 自動定理証明 {#automatic-theorem-proving}
+### 型クラスの法則の検査 {#type-class-law-checking}
 Orphos言語に実装したい型クラスの機能として、
 
 - 型クラスの定義・インスタンスの定義・呼び出し。
@@ -123,7 +123,7 @@ Orphos言語に実装したい型クラスの機能として、
 Z3のC APIには証明に使う時間やリソースの制限を指定する機能があったはずなので（今ちょっと探したら見つからなかった。まあなんとかなるだろう）、その閾値をコンパイラオプションで指定するようにする。
 CIでビルドするときだけ閾値を上げて高性能ハードウェアで殴るとか、安定版リリース前に閾値を上げて時間で殴るという運用が可能だろう。
 
-### ふるい型(refined type)
+### ふるい型(refined type) {#refined-type}
 `Int > 0`みたく型に制約をつける（集合をふるいにかける）らしい。
 これもZ3で殴って警告を出す機能にしたい。
 
@@ -131,7 +131,7 @@ CIでビルドするときだけ閾値を上げて高性能ハードウェアで
 :    ふるい型の検査をZ3などのSMTソルバで行う実装例。
 
 
-## レベルベースの型推論
+## レベルベースの型推論 {#level-based-type-inference}
 [sound_lazy.ml](http://okmij.org/ftp/ML/generalization/sound_lazy.ml)を参考にレベルベース型推論を実装する。
 
 [How OCaml type checker works -- or what polymorphism and garbage collection have in common](http://okmij.org/ftp/ML/generalization.html)
@@ -141,5 +141,5 @@ CIでビルドするときだけ閾値を上げて高性能ハードウェアで
 :    去年の言語実装Advent Calendarの記事。
      レベルベースの型推論が紹介されている。
 
-## おわり
+## おわり {#conclusion}
 ブログ復活させたばかりでコメントシステムをまだつけてないので、何かあったら[マストドンアカウント](https://mstdn.res.ac/@tomoaki3478)まで。

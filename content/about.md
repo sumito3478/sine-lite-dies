@@ -11,10 +11,10 @@ tags = [
 summary = "このサイトについての説明。"
 +++
 
-## このサイトは
+## このサイトは {#about-this-site}
 Takezoe,Tomoakiのブログ
 
-## アカウントとリンク
+## アカウントとリンク {#accounts-and-links}
 このサイト
 :    [Sine Lite Dies](https://sld.res.ac/)
 
@@ -30,7 +30,7 @@ GitHub（組織アカウント）
 Twitter
 :    [sumito3478](https://twitter.com/sumito3478)
 
-## 語源学
+## 語源学 {#etymology}
 
 sine lite diesは、ラテン語でいさかいのない日々[^1]という意味。
 ([Mart. 2, 90](https://la.wikisource.org/wiki/Epigrammaton_liber_II#XC))。
